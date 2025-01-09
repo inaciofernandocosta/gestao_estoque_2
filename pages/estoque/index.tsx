@@ -1,54 +1,83 @@
 import React from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import ResponsiveLayout from '../../nexacapital-responsive-layout';
-import EstoqueTable from '../../components/tables/EstoqueTable';
-import { getEstoqueSummary } from '../../services/estoqueService';
+import Layout from '../../components/layout/Layout';
 
 const EstoquePage: NextPage = () => {
-  const [data, setData] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getEstoqueSummary();
-        setData(result);
-      } catch (error) {
-        console.error('Erro ao carregar dados:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const mockData = [
+    {
+      negocio: 'SP',
+      comprador: 'João Silva',
+      estoqueAtual: 1234567.89,
+      pendente: 234567.89,
+      totalPrevisto: 1469135.78
+    },
+    {
+      negocio: 'HB',
+      comprador: 'Maria Santos',
+      estoqueAtual: 987654.32,
+      pendente: 123456.78,
+      totalPrevisto: 1111111.10
+    }
+  ];
 
   return (
-    <div>
+    <Layout>
       <Head>
         <title>Gestão de Estoque - Visão por Negócio</title>
         <meta name="description" content="Visão de estoque por negócio" />
       </Head>
 
-      <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6">Visão por Negócio</h1>
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-          </div>
-        ) : (
-          <div className="bg-white rounded-lg shadow">
-            <EstoqueTable data={data} />
-          </div>
-        )}
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">Visão por Negócio</h1>
+        
+        <div className="bg-white shadow rounded-lg overflow-hidden">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Negócio
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Comprador
+                </th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Estoque Atual
+                </th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Pendente
+                </th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Total Previsto
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {mockData.map((item, index) => (
+                <tr key={index}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {item.negocio}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {item.comprador}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">
+                    {`R$ ${item.estoqueAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">
+                    {`R$ ${item.pendente.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">
+                    {`R$ ${item.totalPrevisto.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
-};
-
-EstoquePage.getLayout = function getLayout(page: React.ReactElement) {
-  return <ResponsiveLayout>{page}</ResponsiveLayout>;
 };
 
 export default EstoquePage;
