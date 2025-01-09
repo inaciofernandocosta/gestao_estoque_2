@@ -20,26 +20,20 @@ export interface EstoqueSummary {
 }
 
 export const getEstoqueSummary = async (): Promise<EstoqueSummary[]> => {
-  const files = {
-    SP: '/data/sp.json',
-    HB: '/data/hb.json',
-    FOCOMIX: '/data/focomix.json'
-  };
-
   const summaryMap = new Map<string, EstoqueSummary>();
 
-  for (const [negocio, filePath] of Object.entries(files)) {
-    try {
-      const response = await fetch(filePath);
-      const items: EstoqueItem[] = await response.json();
+  try {
+    const response = await fetch('/data/mock-data.json');
+    const data = await response.json();
 
-      items.forEach(item => {
+    Object.entries(data).forEach(([negocio, items]: [string, any]) => {
+      items.forEach((item: EstoqueItem) => {
         const key = `${item.comprador}-${negocio}`;
         
         if (!summaryMap.has(key)) {
           summaryMap.set(key, {
             comprador: item.comprador,
-            negocio,
+            negocio: negocio.toUpperCase(),
             estoqueAtual: 0,
             pendente: 0,
             totalPrevisto: 0
@@ -51,9 +45,9 @@ export const getEstoqueSummary = async (): Promise<EstoqueSummary[]> => {
         summary.pendente += item.valorPrecoDeVenda * item.quantidadeReservada;
         summary.totalPrevisto = summary.estoqueAtual + summary.pendente;
       });
-    } catch (error) {
-      console.error(`Erro ao carregar dados de ${negocio}:`, error);
-    }
+    });
+  } catch (error) {
+    console.error('Erro ao carregar dados:', error);
   }
 
   return Array.from(summaryMap.values());

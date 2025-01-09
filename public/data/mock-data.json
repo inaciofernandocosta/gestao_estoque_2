@@ -1,0 +1,35 @@
+{
+  "sp": [
+    {
+      "produto": "SP001",
+      "nomeProduto": "Produto Teste SP 1",
+      "comprador": "Comprador SP 1",
+      "quantidadeEmEstoque": 100,
+      "quantidadeReservada": 20,
+      "quantidadeDisponivel": 80,
+      "valorPrecoDeVenda": 150.00
+    }
+  ],
+  "hb": [
+    {
+      "produto": "HB001",
+      "nomeProduto": "Produto Teste HB 1",
+      "comprador": "Comprador HB 1",
+      "quantidadeEmEstoque": 150,
+      "quantidadeReservada": 30,
+      "quantidadeDisponivel": 120,
+      "valorPrecoDeVenda": 200.00
+    }
+  ],
+  "focomix": [
+    {
+      "produto": "FC001",
+      "nomeProduto": "Produto Teste Focomix 1",
+      "comprador": "Comprador Focomix 1",
+      "quantidadeEmEstoque": 200,
+      "quantidadeReservada": 40,
+      "quantidadeDisponivel": 160,
+      "valorPrecoDeVenda": 250.00
+    }
+  ]
+}
