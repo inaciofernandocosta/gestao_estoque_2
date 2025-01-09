@@ -40,7 +40,7 @@ const menuItems: MenuItem[] = [
         id: 'negocios',
         label: 'Negócios',
         icon: <TrendingUp size={20} />,
-        href: '/estoque/negocios'
+        href: '/estoque'
       },
       {
         id: 'bu',
